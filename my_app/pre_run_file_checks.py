@@ -250,6 +250,7 @@ def pre_run_file_checks(run_dir=app_cfg['UPDATES_SUB_DIR']):
     with open(os.path.join(path_to_run_dir, app_cfg['META_DATA_FILE']), 'w') as json_output:
         json.dump(config_dict, json_output)
 
+    print('pre run file checks DONE!')
     return
 
 

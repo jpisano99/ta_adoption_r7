@@ -17,7 +17,7 @@ To mount an Elastic File System onto an Ubuntu ECS Instance
     1. Install NFS on the instance
      sudo apt-get -y install nfs-common
     2. Replace file-system-id with yours:
-     sudo mount -t nfs -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport file-system-id.efs.aws-region.amazonaws.com:/ efs-mount-point
+     sudo mount -t nfs -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-19b04b98.efs.us-east-1.amazonaws.com:/ ./efs
 
 To mount an Elastic File System onto an ElasticBeanStalk Env
     See the .ebextensions file storage-efs-mountfilesystems.config and include in your bundle
