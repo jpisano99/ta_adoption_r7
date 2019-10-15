@@ -3,7 +3,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import sqlalchemy
 from my_app.settings import app_cfg, db_config
-from my_app.check_dir_tree import check_dir_tree
+from my_app.func_lib.check_dir_tree import check_dir_tree
 from base64 import b64encode
 from my_app.my_secrets import passwords
 
