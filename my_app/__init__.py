@@ -13,6 +13,9 @@ application = app = Flask(__name__)
 token = os.urandom(64)
 token = b64encode(token).decode('utf-8')
 app.config['SECRET_KEY'] = token
+app.config['UPLOADED_FILES_DEST'] = os.path.join(app_cfg['HOME'], app_cfg['MOUNT_POINT'],
+                                                 app_cfg['MY_APP_DIR'], app_cfg['UPDATES_SUB_DIR'])
+
 
 # Get the Passwords and Keys
 print()

@@ -1,12 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
 </head>
 <body>
-    Hello World
     <p>Type of URL: {{type_of_url}}</p>
     <p>Customer Name: {{cust_name}}</p>
+
+    <div id="msgid">
+    </div>
 </body>
 </html>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+     $("#msgid").html("This is Hello World by JQuery");
+    });
+</script>

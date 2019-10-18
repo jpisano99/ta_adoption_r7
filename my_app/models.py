@@ -29,14 +29,34 @@ class Test_Table(db.Model):
        return "<name {}: '{} , {}'>".format(self.id, self.pss_name,self.tsa_name)
 
 
-# class Bookings(db.Model):
-#     __tablename__ = 'bookings'
-#
-#     erp_end_customer_name = db.Column(db.String(100))
-#     total_bookings = db.Column(db.Float)
-#     product_id = db.Column(db.String(25))
-#     date_added = db.Column(db.DateTime)
-#     hash_value = db.Column(db.String(50), primary_key=True)
+class Bookings(db.Model):
+    __tablename__ = 'bookings'
+
+    fiscal_year = db.Column(db.String(50))
+    fiscal_quarter_id = db.Column(db.String(50))
+    fiscal_period_id = db.Column(db.String(50))
+    sales_level_1 = db.Column(db.String(50))
+    sales_level_2 = db.Column(db.String(50))
+    sales_level_3 = db.Column(db.String(50))
+    sales_level_4 = db.Column(db.String(50))
+    sales_level_5 = db.Column(db.String(50))
+    sales_level_6 = db.Column(db.String(50))
+    sales_agent_name = db.Column(db.String(50))
+    email_id = db.Column(db.String(50))
+    erp_sales_order_number = db.Column(db.String(50))
+    web_order_id = db.Column(db.String(50))
+    erp_end_customer_name= db.Column(db.String(50))
+    end_customer_global_ultimate_name = db.Column(db.String(50))
+    end_customer_global_ultimate_id = db.Column(db.String(50))
+    tms_level_2_sales_allocated = db.Column(db.String(50))
+    product_family = db.Column(db.String(50))
+    bundle_product_id = db.Column(db.String(50))
+    product_id = db.Column(db.String(50))
+    tms_sales_allocated_product_bookings_net = db.Column(db.Float)
+    tms_sales_allocated_service_bookings_net = db.Column(db.Float)
+    hash_value = db.Column(db.String(50), primary_key=True)
+    date_added = db.Column(db.DateTime)
+
 
 
 # class Customers(db.Model):
