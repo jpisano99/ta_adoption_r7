@@ -3,6 +3,7 @@ from my_app.main import get_customer
 from flask import render_template, url_for, request, jsonify
 from my_app.pre_run_file_checks import pre_run_file_checks
 from my_app.build_customers_r1 import main
+from my_app.import_updates_to_sql import import_updates_to_sql
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -34,6 +35,13 @@ def build_it():
     print('Processing Starting')
     main()
     return 'DONE with Building Dashboard !'
+
+
+@app.route('/load_db', methods=['GET', 'POST'])
+def load_db():
+    print('Loading DB')
+    import_updates_to_sql()
+    return 'DONE with Loading Database !'
 
 
 @app.route('/upload', methods=['GET', 'POST'])

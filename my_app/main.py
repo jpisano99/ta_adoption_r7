@@ -1,14 +1,7 @@
 from my_app.func_lib.db_tools import create_tables
 from my_app.func_lib.get_list_from_ss import get_list_from_ss
 from my_app.func_lib.open_wb  import open_wb
-from my_app.settings import app_cfg
 from my_app.func_lib.push_list_to_xls import push_list_to_xls
-import datetime
-import csv
-from my_app.models import Bookings
-from my_app import db
-from my_app.pre_run_file_checks import pre_run_file_checks
-
 
 # Use this file to place scripts that are called from views.py
 def get_customer():
@@ -20,25 +13,6 @@ def get_customer():
     # Try creating a Test_Table in the mySQL DB from Models.py
     create_tables("Test_Table")
     create_tables("Bookings")
-    ws, wb = open_wb(app_cfg['XLS_BOOKINGS'])
-    print(wb.nrows)
-    bookings_list = []
-
-    for row_x in range(1, 3):
-        row_list = []
-        for col_x in range(wb.ncols):
-            print(wb.cell_type(row_x, col_x), wb.cell_value(row_x, col_x))
-            row_list.append(wb.cell_value(row_x, col_x))
-        row_list.append('1234')
-        row_list.append(datetime.datetime.now())
-        bookings_list.append(row_list)
-
-    print(bookings_list)
-    # booking = Bookings()
-    # booking.hash_value = '123'
-    # booking.fiscal_year = 'FY20'
-    # db.session.add(booking)
-    # db.session.commit()
 
     # Try retrieving a SmartSheet
     ss_test_list = get_list_from_ss('Tetration SKUs')
@@ -48,8 +22,10 @@ def get_customer():
     push_list_to_xls(ss_test_list, 'my_test_sheet.xlsx')
 
     # Try opening an xlsx file from local storage
-    xws, wb = open_wb('my_test_sheet.xlsx')
-    return 'Hello from Main.py: I read: '+ str(len(ss_test_list)) + ' rows from SmartSheets'
+    wb, ws = open_wb('my_test_sheet.xlsx')
+    print("Opened my_test_sheet and it has:",ws.nrows, " rows")
+
+    return 'Hello from Main.py: I read: ' + str(len(ss_test_list)) + ' rows from SmartSheets'
 
 
 if __name__ == "__main__" and __package__ is None:

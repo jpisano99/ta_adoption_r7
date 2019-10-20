@@ -5,46 +5,50 @@ from my_app.func_lib.db_tools import create_tables
 from my_app.func_lib.xlrd_wb_to_csv import xlrd_wb_to_csv
 from my_app.func_lib.load_infile import load_infile
 
-create_tables()
 
-#
-# Import Delivery
-#
-wb, ws = open_wb(app_cfg['XLS_AS_DELIVERY_STATUS'])
-my_csv = xlrd_wb_to_csv(wb, ws)
+def import_updates_to_sql():
+    create_tables()
 
-my_new_list = []
-for my_row in my_csv:
-    my_row.insert(0, '')
-    my_new_list.append(my_row)
+    #
+    # Import Delivery
+    #
+    wb, ws = open_wb(app_cfg['XLS_AS_DELIVERY_STATUS'])
+    my_csv = xlrd_wb_to_csv(wb, ws)
 
-push_list_to_csv(my_new_list, 'csv_services.csv')
-load_infile('services', 'csv_services.csv')
+    my_new_list = []
+    for my_row in my_csv:
+        my_row.insert(0, '')
+        my_new_list.append(my_row)
 
-#
-# Import Subscriptions
-#
-wb, ws = open_wb(app_cfg['XLS_SUBSCRIPTIONS'])
-my_csv = xlrd_wb_to_csv(wb, ws)
+    push_list_to_csv(my_new_list, 'csv_services.csv')
+    load_infile('services', 'csv_services.csv')
 
-my_new_list = []
-for my_row in my_csv:
-    my_row.insert(0, '')
-    my_new_list.append(my_row)
+    #
+    # Import Subscriptions
+    #
+    wb, ws = open_wb(app_cfg['XLS_SUBSCRIPTIONS'])
+    my_csv = xlrd_wb_to_csv(wb, ws)
 
-push_list_to_csv(my_new_list, 'csv_subscriptions.csv')
-load_infile('subscriptions', 'csv_subscriptions.csv')
+    my_new_list = []
+    for my_row in my_csv:
+        my_row.insert(0, '')
+        my_new_list.append(my_row)
 
-#
-# Import Bookings
-#
-wb, ws = open_wb(app_cfg['XLS_BOOKINGS'])
-my_csv = xlrd_wb_to_csv(wb, ws)
+    push_list_to_csv(my_new_list, 'csv_subscriptions.csv')
+    load_infile('subscriptions', 'csv_subscriptions.csv')
 
-my_new_list = []
-for my_row in my_csv:
-    my_row.insert(0, '')
-    my_new_list.append(my_row)
+    #
+    # Import Bookings
+    #
+    wb, ws = open_wb(app_cfg['XLS_BOOKINGS'])
+    my_csv = xlrd_wb_to_csv(wb, ws)
 
-push_list_to_csv(my_new_list, 'csv_bookings.csv')
-load_infile('bookings', 'csv_bookings.csv')
+    my_new_list = []
+    for my_row in my_csv:
+        my_row.insert(0, '')
+        my_new_list.append(my_row)
+
+    push_list_to_csv(my_new_list, 'csv_bookings.csv')
+    load_infile('bookings', 'csv_bookings.csv')
+
+    return
