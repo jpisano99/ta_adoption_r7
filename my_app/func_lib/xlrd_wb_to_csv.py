@@ -19,8 +19,11 @@ def xlrd_wb_to_csv(wb, ws):
             my_cell = ws.cell(my_row, my_col)
 
             if my_cell.ctype == xlrd.XL_CELL_DATE:
+                # tmp_val = datetime.datetime(*xlrd.xldate_as_tuple(my_cell.value, wb.datemode))
+                # tmp_val = tmp_val.strftime('%D')
+                # my_csv_row.append(tmp_val)
+
                 tmp_val = datetime.datetime(*xlrd.xldate_as_tuple(my_cell.value, wb.datemode))
-                tmp_val = tmp_val.strftime('%D')
                 my_csv_row.append(tmp_val)
 
             elif my_cell.ctype == xlrd.XL_CELL_NUMBER:
