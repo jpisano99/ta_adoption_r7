@@ -1,5 +1,6 @@
 import csv
 import os
+from my_app.func_lib.db_tools import create_tables
 from my_app.func_lib.open_wb import open_wb
 from my_app.func_lib.xlrd_wb_to_csv import xlrd_wb_to_csv
 from my_app.func_lib.xlrd_wb_to_list import xlrd_wb_to_list
@@ -27,8 +28,11 @@ def push_list_to_csv(my_list, csv_output, run_dir=app_cfg['UPDATES_SUB_DIR'], tb
 
 
 if __name__ == "__main__" and __package__ is None:
-    # wb, ws = open_wb(app_cfg['XLS_BOOKINGS'])
-    wb, ws = open_wb(app_cfg['XLS_AS_DELIVERY_STATUS'])
+    wb, ws = open_wb(app_cfg['XLS_BOOKINGS'])
+    # wb, ws = open_wb(app_cfg['XLS_AS_DELIVERY_STATUS'])
+    # wb, ws = open_wb(app_cfg['XLS_SUBSCRIPTIONS'])
+    create_tables('Bookings')
+
     my_csv_list = xlrd_wb_to_csv(wb, ws)
     my_list = xlrd_wb_to_list(wb, ws)
 

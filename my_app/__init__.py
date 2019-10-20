@@ -1,4 +1,5 @@
 import os
+import mysql
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import sqlalchemy
@@ -33,6 +34,15 @@ check_dir_tree()
 #
 # database connection settings
 #
+
+# # Create connection to MySQL
+#
+# ADD 'allow_local_infile' here  AND
+# In the my.ini file ADD
+# [mysqld]
+# local_infile=1
+my_mysql_options = '?charset=utf8&allow_local_infile=true'
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://' +\
                                             db_config['USER'] +\
                                         ':'+db_config['PASSWORD'] +\
@@ -52,13 +62,17 @@ engine.execute("USE " + db_config['DATABASE'] + ";")  # select new db
 #     'dev':        'mysqldb://localhost/users',
 #     'prod':       'sqlite:////path/to/appmeta.db'
 # }
-app.config['SQLALCHEMY_DATABASE_URI'] = app.config['SQLALCHEMY_DATABASE_URI'] + "/" + db_config['DATABASE']
+app.config['SQLALCHEMY_DATABASE_URI'] = app.config['SQLALCHEMY_DATABASE_URI'] + "/" + db_config['DATABASE'] + \
+                                        my_mysql_options
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+print('SQLALCHEMY_DATABASE_URI is:', app.config['SQLALCHEMY_DATABASE_URI'])
+
 
 #
 # # Create db for SQL Alchemy
 db = SQLAlchemy(app)
+
 
 # Are we connected if so How & Where ?
 db_host = []

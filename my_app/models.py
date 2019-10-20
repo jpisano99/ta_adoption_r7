@@ -32,6 +32,7 @@ class Test_Table(db.Model):
 class Bookings(db.Model):
     __tablename__ = 'bookings'
 
+    id = db.Column(db.Integer(), primary_key=True)
     fiscal_year = db.Column(db.String(50))
     fiscal_quarter_id = db.Column(db.String(50))
     fiscal_period_id = db.Column(db.String(50))
@@ -54,9 +55,8 @@ class Bookings(db.Model):
     product_id = db.Column(db.String(50))
     tms_sales_allocated_product_bookings_net = db.Column(db.Float)
     tms_sales_allocated_service_bookings_net = db.Column(db.Float)
-    hash_value = db.Column(db.String(50), primary_key=True)
-    date_added = db.Column(db.DateTime)
-
+    # hash_value = db.Column(db.String(50), primary_key=True)
+    # date_added = db.Column(db.DateTime)
 
 
 # class Customers(db.Model):
