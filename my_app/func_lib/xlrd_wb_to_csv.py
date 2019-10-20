@@ -12,7 +12,8 @@ def xlrd_wb_to_csv(wb, ws):
     #
     #
     my_csv_list = []
-    for my_row in range(ws.nrows):
+    # Skip the header
+    for my_row in range(1, ws.nrows):
         my_csv_row = []
 
         for my_col in range(ws.ncols):
