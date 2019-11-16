@@ -4,6 +4,12 @@ from flask import render_template, url_for, request, jsonify
 from my_app.pre_run_file_checks import pre_run_file_checks
 from my_app.build_customers_r1 import main
 from my_app.import_updates_to_sql import import_updates_to_sql
+from my_app.models import Bookings
+
+
+# @app.route('/', methods=['GET', 'POST'])
+# def index():
+#     return 'hello world'
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -53,3 +59,13 @@ def upload():
         #     pass
 
     return render_template('upload.html')
+
+
+@app.route('/show_customer', methods=['GET', 'POST'])
+def show_customer():
+    my_query = Bookings.query.filter_by(erp_end_customer_name='BLUE SHIELD OF CALIFORNIA').all()
+    for x, my_row in enumerate(my_query, 1):
+        print(x, my_row.id, my_row.erp_end_customer_name, my_row.product_id)
+    import_updates_to_sql()
+
+    return render_template('index.html', my_query=my_query)

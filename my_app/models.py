@@ -26,7 +26,7 @@ class Test_Table(db.Model):
         return Test_Table.query.order_by(Test_Table.first_name).limit(num)
 
     def __repr__(self):
-       return "<name {}: '{} , {}'>".format(self.id, self.pss_name,self.tsa_name)
+       return "<name {}: '{} , {}'>".format(self.id, self.first_name,self.last_name)
 
 
 class Subscriptions(db.Model):
@@ -97,6 +97,9 @@ class Services(db.Model):
     tracking_responsible = db.Column(db.String(50))
     column30 = db.Column(db.String(50))
 
+    def __repr__(self):
+        return f"Services for ('{self.pid}' , '{self.end_customer}')"
+
 
 class Bookings(db.Model):
     __tablename__ = 'bookings'
@@ -124,8 +127,8 @@ class Bookings(db.Model):
     product_id = db.Column(db.String(50))
     tms_sales_allocated_product_bookings_net = db.Column(db.Float)
     tms_sales_allocated_service_bookings_net = db.Column(db.Float)
-    # hash_value = db.Column(db.String(50), primary_key=True)
-    # date_added = db.Column(db.DateTime)
+    hash_value = db.Column(db.String(50))
+    date_added = db.Column(db.DateTime)
 
 
 # class Customers(db.Model):

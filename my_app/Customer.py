@@ -13,11 +13,12 @@ class Customer:
 
         self.aliases = []  # Simple list of customer erp names for this cust id
         self.orders = {}  # Simple dict of {SO #: [sku1, sku2]}
-        self.as_pids = {}  # Simple dict of {SO #: [(pid1, as_customer_name)]}
+        self.as_pids = {}  # Simple dict of {SO #: [(pid1, as_customer_name, as_sku)]}
         self.subs = []  # Simple list of lists of subscriptions[]
         self.saas = {}
 
     def add_order(self, order_num, sku):
+        # Check to see if this SO # already exists
         if order_num in self.orders:
             sku_list = self.orders[order_num]
             sku_list.append(sku)
@@ -35,7 +36,7 @@ class Customer:
             self.aliases.append(erp_name)
 
     def add_as_pid(self, order_num, as_pid_info):
-        # as_pid_info is a full list of tuples (as_pid, as_cust_name)
+        # as_pid_info is a full list of tuples (as_pid, as_cust_name, as_sku)
         # with ALL PIDs for this SO for this cust_id
         self.as_pids[order_num] = as_pid_info
 

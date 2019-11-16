@@ -5,8 +5,8 @@ import os
 
 # application predefined constants
 app_cfg = dict(
-    RUNTIME_ENV='AWS',
-    # RUNTIME_ENV='LOCAL',
+    # RUNTIME_ENV='AWS',
+    RUNTIME_ENV='LOCAL',
     # RUNTIME_ENV='PYTHONANYWHERE',
 
     VERSION=1.0,

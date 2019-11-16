@@ -4,10 +4,12 @@ from my_app.func_lib.push_list_to_csv import push_list_to_csv
 from my_app.func_lib.db_tools import create_tables
 from my_app.func_lib.xlrd_wb_to_csv import xlrd_wb_to_csv
 from my_app.func_lib.load_infile import load_infile
+import datetime
 
 
 def import_updates_to_sql():
     create_tables()
+    now = datetime.datetime.now()
 
     #
     # Import Delivery
@@ -44,11 +46,21 @@ def import_updates_to_sql():
     my_csv = xlrd_wb_to_csv(wb, ws)
 
     my_new_list = []
+    last_col = len(my_csv[0])
+
     for my_row in my_csv:
+        # Add some useful columns
         my_row.insert(0, '')
+        my_row.insert(last_col+1, 'hash')
+        my_row.insert(last_col+2, now)
+
         my_new_list.append(my_row)
 
     push_list_to_csv(my_new_list, 'csv_bookings.csv')
     load_infile('bookings', 'csv_bookings.csv')
 
     return
+
+
+if __name__ == "__main__" and __package__ is None:
+    import_updates_to_sql()

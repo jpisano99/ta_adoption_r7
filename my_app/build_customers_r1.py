@@ -209,6 +209,11 @@ def main():
         if cust_erp_name not in cust_alias_db:
             cust_alias_db[cust_erp_name] = cust_id
 
+    tmp_list = [['erp customer name','customer id']]
+    for key, val in cust_alias_db.items():
+        tmp_list.append([key, val])
+    push_list_to_xls(tmp_list, 'tmp_unique_customer_names.xlsx')
+
     print('Unique Customer IDs with filter of', " '" + sku_filter_val+"' :", len(cust_db))
     print("Customer Unique Customer Names: ", len(cust_alias_db))
     print("Unique Sales Order Numbers: ", len(so_dict))
@@ -302,6 +307,7 @@ def main():
         # Gather the fields we want
         as_pid = as_ws.cell_value(row_num, 0)
         as_cust_name = as_ws.cell_value(row_num, 2)
+        as_sku = as_ws.cell_value(row_num, 14)
         as_so = as_ws.cell_value(row_num, 19)
 
         # Just a check
@@ -313,7 +319,7 @@ def main():
             as_so_unique_cntr += 1
 
         if as_so not in as_db:
-            my_as_info_list.append((as_pid, as_cust_name))
+            my_as_info_list.append((as_pid, as_cust_name, as_sku))
             as_db[as_so] = my_as_info_list
         else:
             my_as_info_list = as_db[as_so]
@@ -323,7 +329,7 @@ def main():
                     add_it = False
                     break
             if add_it:
-                my_as_info_list.append((as_pid, as_cust_name))
+                my_as_info_list.append((as_pid, as_cust_name, as_sku))
                 as_db[as_so] = my_as_info_list
 
         # Checks
@@ -381,7 +387,7 @@ def main():
                 found_list = found_list + len(as_info)
                 cust_obj.add_as_pid(as_so, as_info)
 
-                cust_obj.add_as_pid(as_so, as_info)
+                # cust_obj.add_as_pid(as_so, as_info)
 
                 as_zombies.append([as_so, as_info[0][0], as_info[0][1], possible_cust, best_match])
                 print('\tNOT FOUND Customer ID for: ', as_cust_name)
@@ -512,11 +518,70 @@ def main():
     # exit()
     push_list_to_xls(magic_list, 'magic.xlsx')
 
+    #
+    # Create a simple contact list for CX usage
+    #
+    # Create a dict of Service SKUs
+    tmp_svc_dict = {}
+    for k, v in sku_filter_dict.items():
+        if v[0] == 'Service':
+            tmp_svc_dict[k] = v
+
+    new_cust_list = [['Fiscal Year', 'Booking Qtr', 'Booking Period', 'Customer ID', 'Customer Name',
+                      'CX PID', 'CX SKU', 'SO Num', 'PSS', 'PSS email', 'TSA', 'TSA email', 'AM']]
+    alias_str = ''
+
+    for cust_id, cust_obj in cust_db.items():
+
+        # for cust_alias in cust_obj.aliases:
+        #     cust_name = cust_alias
+        #     pss = cust_obj.pss
+        #     tsa = cust_obj.tsa
+        #     am = cust_obj.am
+
+        alias_str = ''
+        for x in cust_obj.aliases:
+            alias_str = x + " : " + alias_str
+
+        cust_name = alias_str
+        pss = cust_obj.pss
+        tsa = cust_obj.tsa
+        am = cust_obj.am
+
+        add_it = True
+        for so_num, order_list in cust_obj.orders.items():
+            for sku in order_list:
+                if sku in tmp_svc_dict:
+                    add_it = False
+                    new_cust_list.append(['', '', '', cust_id, cust_name, 'No PID Found', sku, so_num, pss, '', tsa, '', am])
+
+        if add_it:
+            new_cust_list.append(['', '', '', cust_id, cust_name, 'No PID Found', '', so_num, pss, '', tsa, '', am])
+
+            # # See if we can find any CX PID Data
+            # if len(cust_obj.as_pids) != 0:
+            #     for as_so, as_pid_list in cust_obj.as_pids.items():
+            #         for as_pid in as_pid_list:
+            #             new_cust_list.append(['', '', '', cust_id, cust_name, as_pid[0], as_pid[2], pss, '', tsa, '', am])
+            # else:
+            #     new_cust_list.append(['', '', '', cust_id, cust_name, 'No PID Found', '', pss, '', tsa, '', am])
+
+    push_list_to_xls(new_cust_list, 'tmp_CX Contact_list.xlsx')
+    exit()
+
+
+
+
+
+
+
+
+
 
     #
     # Make a NEW customer list
     #
-    cust_as_of = 201910
+    cust_as_of = 2020
     new_cust_dict = {}
     new_cust_list = [['Booking Period', 'Customer ID', 'Customer Name', 'PSS', 'PSS email', 'TSA', 'TSA email', 'AM']]
     for row_num in range(1, cust_ws.nrows):
@@ -531,6 +596,8 @@ def main():
                 new_cust_list.append([booking_period, cust_id, cust_name, pss, tsa, am])
 
     push_list_to_xls(new_cust_list, 'tmp_New_Customer_list.xlsx')
+    # push_list_to_xls(cust_db, 'tmp_All_Customers_list.xlsx')
+
 
     return
 
